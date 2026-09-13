@@ -1,0 +1,6 @@
+{
+  "name": "EGT-POMDP 数据投毒演化博弈仿真平台",
+  "description": "面向生成式人工智能数据投毒治理的 EGT-POMDP 双向耦合演化博弈仿真平台与实验方案验证系统",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -255,31 +255,31 @@ print("可视化已成功保存为 egt_pomdp_simulation_result.png！可直接�
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-6 space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
         <div>
-          <h4 className="text-base font-bold text-white flex items-center gap-2">
-            <Code2 className="w-5 h-5 text-indigo-400" />
+          <h4 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+            <Code2 className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
             论文复现级 Python 仿真脚本生成器 (Direct Reproducibility)
           </h4>
-          <p className="text-xs text-slate-400">
+          <p className="text-[11px] sm:text-xs text-slate-400">
             包含参数标定、微观转移矩阵构建、贝叶斯信念滤波、6组模型仿真与 300 DPI 矢量绘图代码
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow transition-all"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow transition-all touch-manipulation cursor-pointer active:scale-95"
           >
             {copied ? <Check className="w-4 h-4 text-emerald-300" /> : <Copy className="w-4 h-4" />}
-            {copied ? '已复制到剪贴板' : '复制代码'}
+            <span>{copied ? '已复制' : '复制代码'}</span>
           </button>
           <button
             onClick={handleDownload}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-all"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-all touch-manipulation cursor-pointer active:scale-95"
           >
             <Download className="w-4 h-4" />
-            下载 .py 文件
+            <span>下载 .py</span>
           </button>
         </div>
       </div>

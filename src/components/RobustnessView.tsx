@@ -29,33 +29,33 @@ export const RobustnessView: React.FC<RobustnessViewProps> = ({
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* 实验说明头部 */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 border-b border-slate-800 pb-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-2">
-              <ShieldCheck className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[11px] sm:text-xs font-semibold mb-2">
+              <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
               论文实验四 · 命题稳健性与冲击自愈全景检验 (Experiment 4)
             </div>
-            <h3 className="text-xl font-bold text-white">
+            <h3 className="text-base sm:text-xl font-bold text-white">
               非线性风险映射、观测噪声与突发投毒冲击鲁棒性检验
             </h3>
-            <p className="text-xs text-slate-400 mt-1 max-w-4xl leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-slate-400 mt-1 max-w-4xl leading-relaxed">
               严格对应论文第 7 章仿真设计：验证 EGT–POMDP 双向耦合机制在非线性攻击到达强度 $h(x)$、不完全信息观测噪声扰动 $\sigma \in [0.05, 0.35]$ 以及突发外生大规模攻击冲击（$x \to 0.95$）下的稳健性与自愈弹性。
             </p>
           </div>
           <button
             onClick={onRefresh}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/20 transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/20 transition-all cursor-pointer touch-manipulation active:scale-95"
           >
-            <RefreshCw className="w-4 h-4" />
-            重新扫描检验
+            <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span>重新扫描检验</span>
           </button>
         </div>
 
         {/* 关键指标总结 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mt-4">
           <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
             <div className="text-xs text-slate-400">非线性映射平均节约率</div>
             <div className="text-2xl font-bold text-cyan-400 font-mono mt-1">

@@ -108,18 +108,19 @@ export const AblationView: React.FC<AblationViewProps> = ({
   return (
     <div className="space-y-6">
       {/* 顶部模式切换与控制栏 */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 w-full sm:w-auto">
             <button
               onClick={() => setViewMode('single')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex-1 sm:flex-initial px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer touch-manipulation text-center ${
                 viewMode === 'single'
                   ? 'bg-indigo-600 text-white shadow'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              单次确定性轨迹 (Seed 42)
+              <span className="hidden sm:inline">单次确定性轨迹 (Seed 42)</span>
+              <span className="sm:hidden">单次轨迹</span>
             </button>
             <button
               onClick={() => {
@@ -128,17 +129,18 @@ export const AblationView: React.FC<AblationViewProps> = ({
                   onRunMonteCarlo(50);
                 }
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`flex-1 sm:flex-initial px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer touch-manipulation text-center ${
                 viewMode === 'monte_carlo'
                   ? 'bg-cyan-600 text-white shadow'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <FlaskConical className="w-3.5 h-3.5" />
-              N=50 轮蒙特卡洛统计检验 (Monte Carlo)
+              <FlaskConical className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden sm:inline">N=50 轮蒙特卡洛统计检验 (Monte Carlo)</span>
+              <span className="sm:hidden">50轮蒙特卡洛</span>
             </button>
           </div>
-          <span className="text-xs text-slate-400 hidden sm:inline">
+          <span className="text-xs text-slate-400 hidden lg:inline">
             {viewMode === 'monte_carlo' ? '包含均值与标准差 (Mean ± Std)' : '基于单一同源扰动序列'}
           </span>
         </div>
@@ -147,7 +149,7 @@ export const AblationView: React.FC<AblationViewProps> = ({
           <button
             onClick={() => onRunMonteCarlo(50)}
             disabled={isComputingMonteCarlo}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-all cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition-all cursor-pointer touch-manipulation"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isComputingMonteCarlo ? 'animate-spin' : ''}`} />
             {isComputingMonteCarlo ? '计算中...' : '重新跑 50 轮统计'}

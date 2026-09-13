@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+@layer utilities {
+  /* 隐藏原生粗糙滚动条，保留丝滑触控滑动 */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+html, body {
+  overflow-x: hidden;
+  touch-action: manipulation;
+}

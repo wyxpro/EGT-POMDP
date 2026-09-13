@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   BookOpen, 
   CheckCircle2, 
@@ -9,26 +9,31 @@ import {
   Layers,
   ArrowRight,
   HelpCircle,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Maximize2,
+  Sparkles,
+  X
 } from 'lucide-react';
 
 export const SchemeDocumentation: React.FC = () => {
+  const [showPosterModal, setShowPosterModal] = useState(false);
+
   return (
-    <div className="space-y-8 text-slate-200">
+    <div className="space-y-6 sm:space-y-8 text-slate-200">
       {/* 顶部引导卡片 */}
-      <div className="bg-gradient-to-r from-indigo-950/80 via-slate-900 to-slate-900 border border-indigo-500/30 rounded-2xl p-6 sm:p-8 shadow-xl">
-        <div className="flex items-start gap-4">
+      <div className="bg-gradient-to-r from-indigo-950/80 via-slate-900 to-slate-900 border border-indigo-500/30 rounded-2xl p-4 sm:p-8 shadow-xl">
+        <div className="flex flex-col sm:flex-row items-start gap-4">
           <div className="p-3 bg-indigo-500/20 text-indigo-400 rounded-xl border border-indigo-500/30 shrink-0">
-            <BookOpen className="w-7 h-7" />
+            <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" />
           </div>
-          <div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 mb-2">
+          <div className="w-full">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 mb-2">
               仿真实验全套实施指南 · 论文录用级标准
             </span>
-            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h2 className="text-lg sm:text-2xl font-bold text-white tracking-tight">
               生成式AI数据投毒 EGT–POMDP 双向耦合仿真实验方案
             </h2>
-            <p className="mt-2 text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl">
+            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-300 leading-relaxed max-w-4xl">
               结合朱建明等（2014《通信学报》）的系统动力学攻防演化基础，以及您论文中提出的
               <strong className="text-indigo-300">“宏观演化（EGT）— 微观不完全信息决策（POMDP）双向闭环”</strong>
               理论，我们为您设计了以下完整的 4 大实验模块、6 套对比模型消融体系与全流程实验实施方案。
@@ -37,8 +42,76 @@ export const SchemeDocumentation: React.FC = () => {
         </div>
       </div>
 
+      {/* 🖼️ 项目全景概念海报展示 */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 sm:p-6 space-y-3 shadow-xl">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-cyan-400" />
+            <h3 className="text-sm sm:text-base font-bold text-white">
+              EGT–POMDP 双向耦合治理机制全景概念海报
+            </h3>
+            <span className="text-[10px] sm:text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+              16:9 出版级全景图
+            </span>
+          </div>
+          <button
+            onClick={() => setShowPosterModal(true)}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs transition-all cursor-pointer"
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+            <span>查看高清大图</span>
+          </button>
+        </div>
+
+        <div 
+          onClick={() => setShowPosterModal(true)}
+          className="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950/80 cursor-pointer shadow-inner"
+        >
+          <img
+            src="/egt_pomdp_poster.jpg"
+            alt="EGT-POMDP 双向耦合数据投毒治理全景海报"
+            className="w-full h-auto aspect-video object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+            <span className="text-xs text-cyan-200 flex items-center gap-1.5 font-medium">
+              <Maximize2 className="w-4 h-4" /> 点击展开全屏高清预览 (出版级矢量细节与动力学方程)
+            </span>
+          </div>
+        </div>
+        <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed text-center sm:text-left">
+          图：宏观有限理性复制动态与微观不完全信息马尔可夫决策过程（POMDP）跨时间尺度双向闭环治理机制总体拓扑示意图。
+        </p>
+      </div>
+
+      {/* 高清海报全屏预览 Modal */}
+      {showPosterModal && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6"
+          onClick={() => setShowPosterModal(false)}
+        >
+          <div 
+            className="relative max-w-6xl w-full max-h-[92vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowPosterModal(false)}
+              className="absolute -top-10 right-0 sm:top-2 sm:right-2 p-2 rounded-full bg-slate-800 text-slate-200 hover:bg-slate-700 hover:text-white transition-all cursor-pointer z-10 shadow-lg"
+              title="关闭预览"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <img
+              src="/egt_pomdp_poster.jpg"
+              alt="EGT-POMDP 双向耦合全景海报高清原图"
+              className="max-w-full max-h-[85vh] object-contain rounded-xl border border-slate-700 shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
+
       {/* 1. 核心理论推导与假设映射 */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-8 space-y-6">
         <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
           <h3 className="text-lg font-bold text-white">

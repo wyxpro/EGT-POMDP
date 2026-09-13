@@ -27,7 +27,7 @@ export const ParameterPanel: React.FC<ParameterPanelProps> = ({
   onResetToDefault
 }) => {
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-6">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-5 space-y-5 sm:space-y-6">
       {/* 预设情景选择器 */}
       <div>
         <div className="flex items-center justify-between mb-3">

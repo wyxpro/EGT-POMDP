@@ -63,6 +63,18 @@ export const MicroBeliefChart: React.FC<MicroBeliefChartProps> = ({ records }) =
     }
   };
 
+  const handleTouch = (e: React.TouchEvent<SVGSVGElement>) => {
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mouseX = (touch.clientX - rect.left) * (width / rect.width);
+    const relX = mouseX - padLeft;
+    if (relX >= 0 && relX <= plotW) {
+      const idx = Math.round((relX / plotW) * (steps - 1));
+      setHoverIdx(Math.max(0, Math.min(steps - 1, idx)));
+    }
+  };
+
   const activeRec = hoverIdx !== null ? records[hoverIdx] : records[records.length - 1];
 
   const stateNames = ['安全未污染 (s₀)', '轻度可疑样本 (s₁)', '严重后门植入 (s₂)'];
@@ -75,19 +87,19 @@ export const MicroBeliefChart: React.FC<MicroBeliefChartProps> = ({ records }) =
   const obsNames = ['低异常 (Low)', '中异常 (Med)', '高异常 (High)'];
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-5 space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 border-b border-slate-800 pb-3">
         <div>
-          <h4 className="text-base font-bold text-white flex items-center gap-2">
+          <h4 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
             微观 POMDP 信念分布堆叠演化 (Belief Simplex: b(s₀), b(s₁), b(s₂))
           </h4>
-          <p className="text-xs text-slate-400">
+          <p className="text-[11px] sm:text-xs text-slate-400">
             带噪观测滤波与动态处置升级时序联动
           </p>
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap items-center gap-4 text-xs">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[11px] sm:text-xs">
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 rounded bg-emerald-500/60 border border-emerald-400"></span>
             <span className="text-slate-300">b(s₀) 安全概率</span>
@@ -106,9 +118,11 @@ export const MicroBeliefChart: React.FC<MicroBeliefChartProps> = ({ records }) =
       <div className="relative w-full overflow-x-auto">
         <svg
           viewBox={`0 0 ${width} ${height}`}
-          className="w-full h-auto select-none"
+          className="w-full h-auto select-none touch-manipulation"
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHoverIdx(null)}
+          onTouchMove={handleTouch}
+          onTouchEnd={() => setHoverIdx(null)}
         >
           {/* Y ticks & grid */}
           {[0, 0.5, 1.0].map(v => (
@@ -170,44 +184,44 @@ export const MicroBeliefChart: React.FC<MicroBeliefChartProps> = ({ records }) =
         </svg>
       </div>
 
-      {/* Synchronized Micro Event Card */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+      {/* Synchronized Micro Event Card: 移动端采用2列网格 */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs bg-slate-950/70 p-3 sm:p-4 rounded-xl border border-slate-800">
         <div className="space-y-1">
-          <span className="text-slate-400 flex items-center gap-1">
-            <Activity className="w-3.5 h-3.5 text-indigo-400" />
-            真实隐状态 s_t (真实环境)
+          <span className="text-slate-400 flex items-center gap-1 text-[11px] sm:text-xs">
+            <Activity className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+            真实隐状态 s_t
           </span>
-          <p className="font-semibold text-white">
+          <p className="font-semibold text-white text-[11px] sm:text-xs">
             {stateNames[activeRec.trueState]}
           </p>
         </div>
 
         <div className="space-y-1">
-          <span className="text-slate-400 flex items-center gap-1">
-            <Eye className="w-3.5 h-3.5 text-amber-400" />
-            带噪异常观测 o_t
+          <span className="text-slate-400 flex items-center gap-1 text-[11px] sm:text-xs">
+            <Eye className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            异常观测 o_t
           </span>
-          <p className="font-mono text-amber-300 font-semibold">
+          <p className="font-mono text-amber-300 font-semibold text-[11px] sm:text-xs">
             {obsNames[activeRec.observation]}
           </p>
         </div>
 
         <div className="space-y-1">
-          <span className="text-slate-400 flex items-center gap-1">
-            <Shield className="w-3.5 h-3.5 text-cyan-400" />
-            最优处置决策 a_t
+          <span className="text-slate-400 flex items-center gap-1 text-[11px] sm:text-xs">
+            <Shield className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            处置决策 a_t
           </span>
-          <span className={`inline-block px-2 py-0.5 rounded border text-[11px] font-semibold ${actionBadges[activeRec.action]}`}>
+          <span className={`inline-block px-2 py-0.5 rounded border text-[10px] sm:text-[11px] font-semibold ${actionBadges[activeRec.action]}`}>
             {actionNames[activeRec.action]}
           </span>
         </div>
 
         <div className="space-y-1">
-          <span className="text-slate-400 flex items-center gap-1">
-            <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-            平台当前信念分布 b_t
+          <span className="text-slate-400 flex items-center gap-1 text-[11px] sm:text-xs">
+            <AlertTriangle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+            当前信念 b_t
           </span>
-          <p className="font-mono text-[11px] text-slate-300">
+          <p className="font-mono text-[10px] sm:text-[11px] text-slate-300 truncate">
             [{activeRec.belief[0]}, {activeRec.belief[1]}, {activeRec.belief[2]}]
           </p>
         </div>

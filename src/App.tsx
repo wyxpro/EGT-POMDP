@@ -115,139 +115,142 @@ export default function App() {
   }, [egt, pomdp, config]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
       {/* 顶部主导航栏 */}
-      <header className="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-tr from-indigo-600 to-cyan-500 rounded-xl text-white shadow-md shadow-indigo-500/20">
-              <Cpu className="w-5 h-5" />
+      <header className="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="p-2 sm:p-2.5 bg-gradient-to-tr from-indigo-600 to-cyan-500 rounded-xl text-white shadow-md shadow-indigo-500/20 shrink-0">
+              <Cpu className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                  EGT–POMDP 数据投毒演化博弈仿真平台
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h1 className="text-xs sm:text-base font-bold text-white tracking-tight truncate">
+                  EGT–POMDP 仿真平台
                 </h1>
-                <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                  论文全真验证版 v2.5
+                <span className="shrink-0 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                  v2.5
                 </span>
               </div>
-              <p className="text-xs text-slate-400 truncate max-w-xl">
+              <p className="text-[11px] text-slate-400 truncate hidden md:block max-w-xl">
                 面向生成式人工智能训练数据投毒的宏微观双向耦合治理机制仿真与推理有效性验证
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={handleNewSeed}
               title={`当前随机种子: ${config.seed ?? 42} (点击重置伪随机种子)`}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-700 bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-mono transition-all cursor-pointer"
+              className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl border border-slate-700 bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-mono transition-all cursor-pointer touch-manipulation active:scale-95"
             >
-              <Dices className="w-3.5 h-3.5 text-indigo-400" />
-              <span>种子: {config.seed ?? 42}</span>
+              <Dices className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+              <span className="hidden sm:inline">种子:</span>
+              <span>{config.seed ?? 42}</span>
             </button>
 
             <button
               onClick={() => setShowSettings(!showSettings)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer touch-manipulation active:scale-95 ${
                 showSettings 
                   ? 'bg-indigo-600/30 border-indigo-500 text-indigo-200' 
                   : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-800'
               }`}
             >
-              <Sliders className="w-3.5 h-3.5" />
-              {showSettings ? '收起参数' : '调整参数'}
+              <Sliders className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden sm:inline">{showSettings ? '收起参数' : '调整参数'}</span>
+              <span className="sm:hidden">{showSettings ? '收起' : '参数'}</span>
             </button>
 
             <button
               onClick={() => setSimCounter(prev => prev + 1)}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/30 transition-all active:scale-95 cursor-pointer"
+              className="flex items-center gap-1 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/30 transition-all active:scale-95 cursor-pointer touch-manipulation"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
-              重新仿真
+              <RefreshCw className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden sm:inline">重新仿真</span>
+              <span className="sm:hidden">仿真</span>
             </button>
           </div>
         </div>
 
-        {/* Tab 选项卡 */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto space-x-1 py-1 border-t border-slate-800/40 text-xs">
+        {/* Tab 选项卡：移动端支持横向丝滑滑动与隐藏滚动条 */}
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar space-x-1 py-1.5 border-t border-slate-800/40 text-xs scroll-smooth">
           <button
             onClick={() => setActiveTab('scheme')}
-            className={`flex items-center gap-2 py-2 px-3.5 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 touch-manipulation ${
               activeTab === 'scheme'
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
             }`}
           >
-            <BookOpen className="w-4 h-4 text-indigo-400" />
-            仿真方案全景 (Paper Scheme)
+            <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+            <span>仿真全景</span>
           </button>
 
           <button
             onClick={() => setActiveTab('dynamics')}
-            className={`flex items-center gap-2 py-2 px-3.5 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 touch-manipulation ${
               activeTab === 'dynamics'
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
             }`}
           >
-            <Compass className="w-4 h-4 text-cyan-400" />
-            宏观相图与稳定性 [实验一]
+            <Compass className="w-3.5 h-3.5 text-cyan-400" />
+            <span>宏观相图 [实验一]</span>
           </button>
 
           <button
             onClick={() => setActiveTab('micro')}
-            className={`flex items-center gap-2 py-2 px-3.5 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 touch-manipulation ${
               activeTab === 'micro'
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
             }`}
           >
-            <Activity className="w-4 h-4 text-emerald-400" />
-            微观 POMDP 信念决策 [实验三]
+            <Activity className="w-3.5 h-3.5 text-emerald-400" />
+            <span>微观 POMDP [实验三]</span>
           </button>
 
           <button
             onClick={() => setActiveTab('ablation')}
-            className={`flex items-center gap-2 py-2 px-3.5 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 touch-manipulation ${
               activeTab === 'ablation'
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
             }`}
           >
-            <BarChart3 className="w-4 h-4 text-amber-400" />
-            6 大模型消融对比 [实验二]
+            <BarChart3 className="w-3.5 h-3.5 text-amber-400" />
+            <span>6大模型消融 [实验二]</span>
           </button>
 
           <button
             onClick={() => setActiveTab('robustness')}
-            className={`flex items-center gap-2 py-2 px-3.5 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 touch-manipulation ${
               activeTab === 'robustness'
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
             }`}
           >
-            <ShieldCheck className="w-4 h-4 text-cyan-400" />
-            鲁棒性与冲击检验 [实验四]
+            <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+            <span>鲁棒冲击 [实验四]</span>
           </button>
 
           <button
             onClick={() => setActiveTab('python')}
-            className={`flex items-center gap-2 py-2 px-3.5 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 touch-manipulation ${
               activeTab === 'python'
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
             }`}
           >
-            <FileCode2 className="w-4 h-4 text-purple-400" />
-            论文代码与插图生成 (Python Code)
+            <FileCode2 className="w-3.5 h-3.5 text-purple-400" />
+            <span>Python代码出图</span>
           </button>
         </div>
       </header>
 
-      {/* 核心主工作区 */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      {/* 核心主工作区：移动端内边距自适应 */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {/* 折叠参数面板 */}
         {showSettings && (
           <ParameterPanel

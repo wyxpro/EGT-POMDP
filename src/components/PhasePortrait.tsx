@@ -119,23 +119,36 @@ export const PhasePortrait: React.FC<PhasePortraitProps> = ({
     }
   };
 
+  const handleTouch = (e: React.TouchEvent<SVGSVGElement>) => {
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = (touch.clientX - rect.left) * (width / rect.width);
+    const clickY = (touch.clientY - rect.top) * (height / rect.height);
+    const modelX = Number(fromSvgX(clickX).toFixed(2));
+    const modelY = Number(fromSvgY(clickY).toFixed(2));
+    if (onSetInitCoords && modelX >= 0.05 && modelX <= 0.95 && modelY >= 0.05 && modelY <= 0.95) {
+      onSetInitCoords(modelX, modelY);
+    }
+  };
+
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 flex flex-col space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-6 flex flex-col space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 border-b border-slate-800 pb-3">
         <div>
-          <h4 className="text-base font-bold text-white flex items-center gap-2">
+          <h4 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
             宏观攻防相图平面 (Phase Portrait: x - y)
           </h4>
-          <p className="text-xs text-slate-400">
+          <p className="text-[11px] sm:text-xs text-slate-400">
             横轴：投毒比例 x ∈ [0, 1] ； 纵轴：平台主动防御比例 y ∈ [0, 1]
           </p>
         </div>
         <div className="flex items-center gap-2 text-xs">
           <button
             onClick={() => setShowVectorField(!showVectorField)}
-            className={`px-2.5 py-1 rounded-lg border transition-all ${
+            className={`px-2.5 py-1 rounded-lg border text-xs transition-all touch-manipulation cursor-pointer ${
               showVectorField 
-                ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/40' 
+                ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/40 font-medium' 
                 : 'bg-slate-800 text-slate-400 border-slate-700'
             }`}
           >
@@ -144,16 +157,17 @@ export const PhasePortrait: React.FC<PhasePortraitProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col xl:flex-row items-center gap-6 justify-center">
+      <div className="flex flex-col xl:flex-row items-center gap-4 sm:gap-6 justify-center">
         {/* SVG Canvas */}
-        <div className="relative bg-slate-950/70 border border-slate-800 rounded-xl p-2 shadow-inner">
+        <div className="relative bg-slate-950/70 border border-slate-800 rounded-xl p-1.5 sm:p-2 shadow-inner w-full max-w-[480px] mx-auto flex justify-center">
           <svg
             width={width}
             height={height}
             onClick={handleSvgClick}
+            onTouchStart={handleTouch}
             onMouseMove={handleSvgMouseMove}
             onMouseLeave={() => setHoverPoint(null)}
-            className="cursor-crosshair select-none w-full max-w-[480px] h-auto aspect-square"
+            className="cursor-crosshair select-none w-full h-auto aspect-square touch-manipulation"
             viewBox={`0 0 ${width} ${height}`}
           >
             <defs>

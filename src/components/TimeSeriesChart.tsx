@@ -62,23 +62,35 @@ export const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
     }
   };
 
+  const handleTouch = (e: React.TouchEvent<SVGSVGElement>) => {
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mouseX = (touch.clientX - rect.left) * (width / rect.width);
+    const relX = mouseX - paddingLeft;
+    if (relX >= 0 && relX <= plotW) {
+      const idx = Math.round((relX / plotW) * (steps - 1));
+      setHoverIndex(Math.max(0, Math.min(steps - 1, idx)));
+    }
+  };
+
   const activeRec = hoverIndex !== null ? twoWayRecords[hoverIndex] : twoWayRecords[twoWayRecords.length - 1];
   const activeOneWayRec = (hoverIndex !== null && oneWayRecords) ? oneWayRecords[hoverIndex] : (oneWayRecords ? oneWayRecords[oneWayRecords.length - 1] : null);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-5 space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 border-b border-slate-800 pb-3">
         <div>
-          <h4 className="text-base font-bold text-white flex items-center gap-2">
+          <h4 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
             博弈策略概率时序演化曲线 (Temporal Dynamics: t ↦ x, y)
           </h4>
-          <p className="text-xs text-slate-400">
+          <p className="text-[11px] sm:text-xs text-slate-400">
             对比双向阻尼收敛与无反馈周期振荡
           </p>
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap items-center gap-4 text-xs">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[11px] sm:text-xs">
           <div className="flex items-center gap-1.5">
             <span className="w-3.5 h-0.5 bg-rose-400"></span>
             <span className="text-slate-300">投毒者比例 x(t) [双向]</span>
@@ -111,9 +123,11 @@ export const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
       <div className="relative w-full overflow-x-auto">
         <svg
           viewBox={`0 0 ${width} ${height}`}
-          className="w-full h-auto select-none"
+          className="w-full h-auto select-none touch-manipulation"
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHoverIndex(null)}
+          onTouchMove={handleTouch}
+          onTouchEnd={() => setHoverIndex(null)}
         >
           {/* Grid lines */}
           {[0, 0.25, 0.5, 0.75, 1.0].map(v => (
